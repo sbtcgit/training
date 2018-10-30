@@ -1,4 +1,5 @@
 import Text.Printf
+import Data.List
 
 data Eintrag = Eintrag { satz :: String
                         , wdh :: Int
@@ -29,9 +30,20 @@ let ein1 = Eintrag "3x8" 10 25.0
 Main.print ein1
 putStrLn (Main.print ein1)
 -}
-print :: Eintrag -> String
-print eintrag = "| " ++ (satz eintrag) ++ " | "
+printEin :: Eintrag -> String
+printEin eintrag = "| " ++ (satz eintrag) ++ " | "
           ++ show (wdh eintrag) ++ " Wdh | "
           ++ show (weight eintrag) ++ "kg |"
 
+printUeb :: Übung -> String
+printUeb uebung = "| " ++ (gerät uebung) ++ " | "
+                  ++ printEin (eintragM uebung)
+                  ++ printEin (eintragS uebung)
+                  ++ "\n"
+
 --display TrainingsTag
+printDay :: TrainingsTag -> String
+printDay trainingstag = show( datum trainingstag )
+                        ++ "\n"
+                        ++ "--------------------------------------------------------------\n"
+                        ++ intercalate "" (map printUeb (übungen trainingstag))
